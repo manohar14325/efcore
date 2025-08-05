@@ -1,0 +1,18 @@
+﻿@model IEnumerable<RestaurantApp.Models.Restaurant>
+@{
+    ViewData["Title"] = "Restaurants";
+}
+<h1>Restaurants</h1>
+<div class="row">
+    @foreach (var r in Model)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card p-3">
+                <h4>@r.Name</h4>
+                <p>@r.City — @r.Address</p>
+                <p>@r.Description?.Substring(0, Math.Min(120, (r.Description ?? "").Length))</p>
+                <a asp-action="Details" asp-route-id="@r.Id" class="btn btn-primary">View Menu</a>
+            </div>
+        </div>
+    }
+</div>

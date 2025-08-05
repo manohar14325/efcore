@@ -1,0 +1,29 @@
+﻿@model RestaurantApp.Models.Restaurant
+@{
+    ViewData["Title"] = Model.Name;
+    var menu = ViewBag.MenuItems as List<RestaurantApp.Models.MenuItem> ?? new();
+}
+<h1>@Model.Name</h1>
+<p>@Model.Address, @Model.City | @Model.Phone</p>
+<hr />
+<h3>Menu</h3>
+<div class="row">
+    @foreach (var m in menu)
+    {
+        <div class="col-md-6 mb-3">
+            <div class="card p-3">
+                <h5>@m.Name <small class="text-muted">(@(m.IsVegetarian ? "Veg" : "Non-Veg"))</small></h5>
+                <p>@m.Description</p>
+                <strong>₹ @m.Price</strong>
+                <form asp-controller="Cart" asp-action="AddToCart" method="post" class="mt-2">
+                    <input type="hidden" name="menuItemId" value="@m.Id" />
+                    <div class="input-group">
+                        <input type="number" name="quantity" value="1" min="1" class="form-control" style="max-width:100px;" />
+                        <button type="submit" class="btn btn-success">Add to cart</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+<a asp-controller="Cart" asp-action="Index" class="btn btn-outline-primary">View Cart</a>
